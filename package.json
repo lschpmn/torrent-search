@@ -1,0 +1,21 @@
+{
+  "name": "torrent-search",
+  "version": "0.0.1",
+  "description": "Meta-torrent search engine",
+  "main": "./server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "~0.24.0",
+    "file-loader": "~0.9.0",
+    "node-sass": "~3.8.0",
+    "sass-loader": "~4.0.0",
+    "style-loader": "~0.13.1",
+    "url-loader": "~0.5.7",
+    "webpack": "~1.13.2"
+  }
+}
