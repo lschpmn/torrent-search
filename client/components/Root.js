@@ -6,6 +6,7 @@ import {createStore} from 'redux';
 import Body from './Body';
 import Head from './Head';
 import reducers from '../reducers';
+import SearchNetwork from '../lib/SearchNetwork';
 
 export default class Root extends Component {
   constructor() {
@@ -14,6 +15,8 @@ export default class Root extends Component {
     this.state = {
       store: createStore(reducers)
     };
+    
+    new SearchNetwork(this.state.store);
     
     //simply logs all state changes
     this.state.store.subscribe(() => console.log(this.state.store.getState()));
