@@ -9,13 +9,11 @@ export default class SearchNetwork {
   constructor(store) {
     this._searchTerm = '';
     this._socket = null;
-    console.log('created');
     
     store.subscribe(() => {
       const {searchTerm} = store.getState();
-      console.log(searchTerm);
       
-      if(searchTerm !== this._searchTerm) {
+      if(searchTerm !== this._searchTerm || true) {
         this._searchTerm = searchTerm;
         this.newSearch();
       }
@@ -23,10 +21,13 @@ export default class SearchNetwork {
   }
   
   newSearch() {
-    console.log('Sent to server');
-    
     if(!this._socket) {
       this._socket = io('http://me:5001');
+      
+      this._socket.on('results', ({results}) => {
+        console.log('results');
+        console.log(results);
+      });
     }
     
     this._socket.emit('search', {searchTerm: this._searchTerm});
