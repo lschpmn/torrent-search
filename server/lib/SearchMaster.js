@@ -13,14 +13,15 @@ class SearchMaster extends Emitter{
   constructor(searchTerm) {
     super();
     this._searchTerm = querystring.escape(searchTerm);
+    this._regex = /([0-9.]+)\s(\w+)/;
     
     this.thePirateBay();
   }
   
   thePirateBay() {
     const url = `https://thepiratebay.org/search/${this._searchTerm}/0/7/0`;
-    const results = [];
-    console.log(url);
+    const results = /**@type {torrentResult[]}*/ [];
+    console.log(`Searching Pirate Bay, url: ${url}`);
     
     fetch(url, {headers: {cookie: 'lw=s'}})
       .then(res => res.text())
@@ -30,7 +31,24 @@ class SearchMaster extends Emitter{
           ? +moment(timeString, 'MM-DD HH:mm') 
           : +moment(timeString, 'MM-DD YYYY');
         
-        console.log('loaded');
+        const toBytes = (byteString) => {
+          const regexResult = this._regex.exec(byteString);
+          const amount = +regexResult[1];
+          const size = regexResult[2];
+          
+          switch(size) {
+            case 'TiB':
+              return amount * 1099511627776;
+            case 'GiB':
+              return amount * 1073741824;
+            case 'MiB':
+              return amount * 1048576;
+            case 'KiB':
+              return amount * 1024;
+            default:
+              return amount;
+          }
+        };
   
         $('tr', '#searchResult').not('.header').each((i, elem) => {
           const children = $(elem).children();
@@ -39,9 +57,9 @@ class SearchMaster extends Emitter{
             name: $(children[1]).text(),
             date: toTimestamp($(children[2]).text()),
             magnetLink: $('a', children[3]).attr('href'),
-            size: $(children[4]).text(),
-            seed: $(children[5]).text(),
-            leach: $(children[6]).text()
+            size: toBytes($(children[4]).text()),
+            seed: +$(children[5]).text(),
+            leach: +$(children[6]).text()
           });
         });
         
@@ -52,3 +70,13 @@ class SearchMaster extends Emitter{
 }
 
 module.exports = SearchMaster;
+
+/**
+ * @typedef {Object} torrentResult
+ * @property {String} name
+ * @property {Number} date - Epoch timestamp in milliseconds
+ * @property {String} magnetLink
+ * @property {Number} size - Size of torrents in bytes
+ * @property {Number} seed
+ * @property {Number} leach
+ */
