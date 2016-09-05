@@ -27,9 +27,14 @@ class SearchMaster extends Emitter{
       .then(res => res.text())
       .then(text => {
         const $ = cheerio.load(text);
-        const toTimestamp = timeString => timeString.includes(':')
-          ? +moment(timeString, 'MM-DD HH:mm') 
-          : +moment(timeString, 'MM-DD YYYY');
+        const toTimestamp = /**String*/ timeString => {
+          if(timeString.includes('Today')) return +moment(timeString.replace('Today', ''), 'HH:mm');
+          if(timeString.includes('Y-day')) return +moment(timeString.replace('Y-day', ''), 'HH:mm').subtract(1, 'day');
+          
+          if(timeString.includes(':')) return +moment(timeString, 'MM-DD HH:mm');
+          
+          return +moment(timeString, 'MM-DD YYYY');
+        };
         
         const toBytes = (byteString) => {
           const regexResult = this._regex.exec(byteString);
@@ -59,7 +64,7 @@ class SearchMaster extends Emitter{
             magnetLink: $('a', children[3]).attr('href'),
             size: toBytes($(children[4]).text()),
             seed: +$(children[5]).text(),
-            leach: +$(children[6]).text()
+            leech: +$(children[6]).text()
           });
         });
         
@@ -78,5 +83,5 @@ module.exports = SearchMaster;
  * @property {String} magnetLink
  * @property {Number} size - Size of torrents in bytes
  * @property {Number} seed
- * @property {Number} leach
+ * @property {Number} leech
  */
