@@ -37,10 +37,8 @@ export default class Root extends Component {
         <div style={{display: 'flex'}}>
           <Head search={this._updateSearchTerm} />
         </div>
-    
-        <div>
-          <Body />
-        </div>
+  
+        <Body />
       </div>
     </Provider>;
   }
