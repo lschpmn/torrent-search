@@ -7,13 +7,14 @@ export default class SearchNetwork {
    * @param {Redux.Store} store
    */
   constructor(store) {
+    this._store = store;
     this._searchTerm = '';
     this._socket = null;
     
     store.subscribe(() => {
       const {searchTerm} = store.getState();
       
-      if(searchTerm !== this._searchTerm || true) {
+      if(searchTerm !== this._searchTerm) {
         this._searchTerm = searchTerm;
         this.newSearch();
       }
@@ -25,8 +26,10 @@ export default class SearchNetwork {
       this._socket = io('http://me:5001');
       
       this._socket.on('results', ({results}) => {
-        console.log('results');
-        console.log(results);
+        this._store.dispatch({
+          type: 'UPDATE_RESULTS',
+          results
+        });
       });
     }
     
