@@ -2,7 +2,7 @@
 
 import {combineReducers} from 'redux';
 
-function searchTerm(state = '', action) {
+function searchTerm(state = 'dragon ball', action) {
   switch(action.type) {
     case 'UPDATE_SEARCH_TERM':
       return action.searchTerm;
@@ -11,6 +11,16 @@ function searchTerm(state = '', action) {
   }
 }
 
+function results(state = [], action) {
+  switch(action.type) {
+    case 'UPDATE_RESULTS':
+      return action.results;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
-  searchTerm
+  searchTerm,
+  results
 });
