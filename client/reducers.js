@@ -2,7 +2,7 @@
 
 import {combineReducers} from 'redux';
 
-function searchTerm(state = 'dragon ball', action) {
+function searchTerm(state = '', action) {
   switch(action.type) {
     case 'UPDATE_SEARCH_TERM':
       return action.searchTerm;
