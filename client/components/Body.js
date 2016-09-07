@@ -55,6 +55,26 @@ class Body extends Component {
     else this.setState({sortDirection: false, sortProp});
   }
   
+  /**
+   * Reads from state and displays arrow if item is sorted, as well as renders proper arrow direction
+   * @param {String} sortProp
+   * @private
+   */
+  _renderSortArrow(sortProp) {
+    if(this.state.sortProp !== sortProp) return null;
+    const rotate = this.state.sortDirection ? 'rotate(90deg)' : 'rotate(270deg)';
+    
+    return <div style={{
+      WebkitTransform: rotate,
+      MsTransform: rotate,
+      MozTransform: rotate,
+      transform: rotate,
+      display: 'inline-block',
+      fontWeight: 'bold',
+      fontSize: '1.2em'
+    }}>&lt;</div>;
+  }
+  
   render() {
     console.log(this.state);
     const rows = this.props.results
@@ -79,6 +99,13 @@ class Body extends Component {
           <TableRowColumn style={styles.tableLeechSeed}>{result.leech}</TableRowColumn>
         </TableRow>;
       });
+    
+    //template for all sortable headers
+    const header = (sortProp, display, style) => <TableHeaderColumn style={style}>
+      <div onClick={() => this._sort(sortProp)} style={{cursor: 'pointer', WebkitUserSelect: 'none', MsUserSelect: 'none', MozUserSelect: 'none', userSelect: 'none'}}>
+        {display} {this._renderSortArrow(sortProp)}
+      </div>
+    </TableHeaderColumn>;
   
     return <div style={styles.container}>
       <h1 style={styles.title}>Search Results</h1>
@@ -88,13 +115,10 @@ class Body extends Component {
           <TableRow>
             <TableHeaderColumn style={styles.tableName}>Name</TableHeaderColumn>
             
-            <TableHeaderColumn style={styles.tableDateSize}><div onClick={() => this._sort('date')}>Age</div></TableHeaderColumn>
-            
-            <TableHeaderColumn style={styles.tableDateSize}><div onClick={() => this._sort('size')}>Size</div></TableHeaderColumn>
-            
-            <TableHeaderColumn style={styles.tableLeechSeed}><div onClick={() => this._sort('seed')}>Seeds</div></TableHeaderColumn>
-            
-            <TableHeaderColumn style={styles.tableLeechSeed}><div onClick={() => this._sort('leech')}>Leeches</div></TableHeaderColumn>
+            {header('date', 'Age', styles.tableDateSize)}
+            {header('size', 'Size', styles.tableDateSize)}
+            {header('seed', 'Seeds', styles.tableLeechSeed)}
+            {header('leech', 'Leeches', styles.tableLeechSeed)}
           </TableRow>
         </TableHeader>
       
