@@ -2,7 +2,7 @@
 
 import io from 'socket.io-client';
 
-export default class SearchNetwork {
+export default class SearchClient {
   /**
    * @param {Redux.Store} store
    */

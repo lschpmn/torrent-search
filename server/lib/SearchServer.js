@@ -6,7 +6,7 @@ const cheerio = require('cheerio');
 const moment = require('moment');
 const fetch = require('node-fetch');
 
-class SearchMaster extends Emitter{
+class SearchServer extends Emitter{
   /**
    * @param {String} searchTerm
    */
@@ -74,7 +74,7 @@ class SearchMaster extends Emitter{
   }
 }
 
-module.exports = SearchMaster;
+module.exports = SearchServer;
 
 /**
  * @typedef {Object} torrentResult
