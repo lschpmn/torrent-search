@@ -9,8 +9,8 @@ io.on('connection', function(socket) {
   socket.on('search', ({searchTerm}) => {
     currSearch = new SearchServer(searchTerm);
     
-    currSearch.on('results', res => {
-      socket.emit('results', {results:  res});
+    currSearch.on('results', results => {
+      socket.emit('results', results);
     });
   });
 });

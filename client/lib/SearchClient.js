@@ -21,18 +21,32 @@ export default class SearchClient {
     });
   }
   
+  /**
+   * @param {Boolean} isLoading
+   */
+  loading(isLoading) {
+    this._store.dispatch({
+      type: 'LOADING',
+      isLoading
+    });
+  }
+  
   newSearch() {
     if(!this._socket) {
       this._socket = io('http://me:5001');
       
-      this._socket.on('results', ({results}) => {
+      this._socket.on('results', results => {
+        this.loading(false);
         this._store.dispatch({
           type: 'UPDATE_RESULTS',
           results
         });
       });
+      
+      this._socket.on('error', () => this.loading(false));
     }
     
+    this.loading(true);
     this._socket.emit('search', {searchTerm: this._searchTerm});
   }
 }
