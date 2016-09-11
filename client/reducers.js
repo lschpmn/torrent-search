@@ -2,10 +2,10 @@
 
 import {combineReducers} from 'redux';
 
-function searchTerm(state = '', action) {
+function isLoading(state = false, action) {
   switch(action.type) {
-    case 'UPDATE_SEARCH_TERM':
-      return action.searchTerm;
+    case 'LOADING':
+      return action.isLoading;
     default:
       return state;
   }
@@ -20,7 +20,17 @@ function results(state = [], action) {
   }
 }
 
+function searchTerm(state = '', action) {
+  switch(action.type) {
+    case 'UPDATE_SEARCH_TERM':
+      return action.searchTerm;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
-  searchTerm,
-  results
+  isLoading,
+  results,
+  searchTerm
 });
