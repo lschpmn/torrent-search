@@ -21,7 +21,7 @@ export default class Head extends Component {
   _search(event) {
     if(event.keyCode !== 13) return;
     
-    this.props.search(this.state.searchTerm);
+    if(this.state.searchTerm !== '') this.props.search(this.state.searchTerm);
   }
   
   render() {
