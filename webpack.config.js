@@ -14,9 +14,9 @@ module.exports = {
   
   module: {
     loaders: [
-      {test: /\.css$/, loader: 'style!css'},
-      {test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.eot$|\.woff2$|\.html/, loader: 'file?name=/[name].[ext]'},
-      {test: /\.js$/, loader:'babel?presets[]=react,presets[]=es2015', exclude: /node_modules/}
+      {test: /\.css$/, loader: 'style-loader!css-loader'},
+      {test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.eot$|\.woff2$|\.html/, loader: 'file-loader?name=/[name].[ext]'},
+      {test: /\.js$/, loader:'babel-loader?presets[]=react,presets[]=es2015', exclude: /node_modules/}
     ]
   },
   
