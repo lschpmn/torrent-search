@@ -4,7 +4,6 @@ const Emitter = require('events');
 const querystring = require('querystring');
 const cheerio = require('cheerio');
 const moment = require('moment');
-const fetch = require('node-fetch');
 
 class SearchServer extends Emitter{
   /**
