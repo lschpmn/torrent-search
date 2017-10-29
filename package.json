@@ -4,7 +4,7 @@
   "description": "Meta-torrent search engine",
   "main": "./server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack-dev-server --port 5000"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +18,7 @@
   "devDependencies": {
     "babel-core": "~6.26.0",
     "babel-loader": "~7.1.2",
-    "babel-preset-es2015": "~6.24.1",
+    "babel-preset-env": "~1.6.1",
     "babel-preset-react": "~6.24.1",
     "css-loader": "~0.28.7",
     "file-loader": "~1.1.5",
