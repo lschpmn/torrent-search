@@ -14,44 +14,17 @@ export default class MyTable extends Component {
     this.props = _props;
     this.state = {
       sortProp: 'seed',
-      sortDirection: false //false is descending, true is ascending
+      sortAscending: false,
     };
-  }
-  
-  /**
-   * @param {Number} bytes
-   * @private
-   */
-  _convertBytes(bytes) {
-    const labels = ['', 'K', 'M', 'G', 'T', 'P'];
-    let label = 0;
-    
-    while (bytes >= 1000) {
-      bytes /= 1024;
-      label++;
-    }
-    
-    return `${bytes.toPrecision(4)} ${labels[label]}B`;
-  }
-  
-  /**
-   * @param {Number} timestamp
-   * @private
-   */
-  _convertTimestamp(timestamp) {
-    const age = Date.now() - timestamp;
-    if(age < 0) return 'Recent';
-    
-    return moment(timestamp).fromNow();
   }
   
   /**
    * @param {String} sortProp - The property on the torrentResult object that will be sorted
    * @private
    */
-  _sort(sortProp) {
-    if(this.state.sortProp === sortProp) this.setState({sortDirection: !this.state.sortDirection});
-    else this.setState({sortDirection: false, sortProp});
+  sort(sortProp) {
+    if(this.state.sortProp === sortProp) this.setState({sortAscending: !this.state.sortAscending});
+    else this.setState({sortAscending: false, sortProp});
   }
   
   /**
@@ -59,9 +32,9 @@ export default class MyTable extends Component {
    * @param {String} sortProp
    * @private
    */
-  _renderSortArrow(sortProp) {
+  renderSortArrow(sortProp) {
     if(this.state.sortProp !== sortProp) return null;
-    const rotate = this.state.sortDirection ? 'rotate(90deg)' : 'rotate(270deg)';
+    const rotate = this.state.sortAscending ? 'rotate(90deg)' : 'rotate(270deg)';
     
     return <div style={{
       WebkitTransform: rotate,
@@ -77,7 +50,7 @@ export default class MyTable extends Component {
   render() {
     const rows = this.props.results
       .sort((resultA, resultB) => {
-        return this.state.sortDirection
+        return this.state.sortAscending
           ? resultA[this.state.sortProp] - resultB[this.state.sortProp]
           : resultB[this.state.sortProp] - resultA[this.state.sortProp];
       })
@@ -91,8 +64,8 @@ export default class MyTable extends Component {
             {result.name}
             <a href={result.magnetLink}><FileCloudDownload style={styles.icon}/></a>
           </TableRowColumn>
-          <TableRowColumn style={styles.tableDateSize}>{this._convertTimestamp(result.date)}</TableRowColumn>
-          <TableRowColumn style={styles.tableDateSize}>{this._convertBytes(result.size)}</TableRowColumn>
+          <TableRowColumn style={styles.tableDateSize}>{convertTimestamp(result.date)}</TableRowColumn>
+          <TableRowColumn style={styles.tableDateSize}>{convertBytes(result.size)}</TableRowColumn>
           <TableRowColumn style={styles.tableLeechSeed}>{result.seed}</TableRowColumn>
           <TableRowColumn style={styles.tableLeechSeed}>{result.leech}</TableRowColumn>
         </TableRow>;
@@ -100,8 +73,8 @@ export default class MyTable extends Component {
     
     //template for all sortable headers
     const header = (sortProp, display, style) => <TableHeaderColumn style={style}>
-      <div onClick={() => this._sort(sortProp)} style={{cursor: 'pointer', WebkitUserSelect: 'none', MsUserSelect: 'none', MozUserSelect: 'none', userSelect: 'none'}}>
-        {display} {this._renderSortArrow(sortProp)}
+      <div onClick={() => this.sort(sortProp)} style={{cursor: 'pointer', WebkitUserSelect: 'none', MsUserSelect: 'none', MozUserSelect: 'none', userSelect: 'none'}}>
+        {display} {this.renderSortArrow(sortProp)}
       </div>
     </TableHeaderColumn>;
     
@@ -122,6 +95,33 @@ export default class MyTable extends Component {
       </TableBody>
     </Table>;
   }
+}
+
+/**
+ * @param {Number} bytes
+ * @returns {String}
+ */
+function convertBytes(bytes) {
+  const labels = ['', 'K', 'M', 'G', 'T', 'P'];
+  let label = 0;
+  
+  while (bytes >= 1000) {
+    bytes /= 1024;
+    label++;
+  }
+  
+  return `${bytes.toPrecision(4)} ${labels[label]}B`;
+}
+
+/**
+ * @param {Number} timestamp
+ * @returns {String}
+ */
+function convertTimestamp(timestamp) {
+  const age = Date.now() - timestamp;
+  if(age < 0) return 'Recent';
+  
+  return moment(timestamp).fromNow();
 }
 
 const styles = {
