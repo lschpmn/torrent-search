@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "moment": "^2.19.1",
+    "moment": "~2.19.2",
     "node-fetch": "^1.7.3",
     "socket.io": "^2.0.4"
   },
@@ -23,8 +23,8 @@
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.5",
     "material-ui": "^0.19.4",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
+    "react": "~16.1.1",
+    "react-dom": "~16.1.1",
     "react-redux": "^5.0.6",
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
