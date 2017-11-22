@@ -2,6 +2,7 @@
 
 const cheerio = require('cheerio');
 const moment = require('moment');
+const fetch = require('node-fetch');
 
 const bytesRegex =  /([0-9.]+)\s(\w+)/;
 

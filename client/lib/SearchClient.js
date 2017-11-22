@@ -33,7 +33,7 @@ export default class SearchClient {
   
   newSearch() {
     if(!this._socket) {
-      this._socket = io('http://me:5001');
+      this._socket = io('http://localhost:5001');
       
       this._socket.on('results', results => {
         this.loading(false);
