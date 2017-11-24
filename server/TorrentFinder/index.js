@@ -6,8 +6,30 @@ class TorrentFinder {
   /**
    * @param {SearchObj} searchObj
    */
-  static Search(searchObj) {
-    
+  static Search({page, term}) {
+    return [ PirateBaySite.Search({term, page}) ];
+  }
+
+  /**
+   * @param {Array<TorrentResult>} oldResults
+   * @param {Array<TorrentResult>} newResults
+   */
+  static MergeResults(oldResults, newResults) {
+    return [...oldResults, ...newResults]
+      .map((result, i, arr) => {
+        const index = arr.findIndex(r => r.magnetLink === result.magnetLink);
+        if (index === -1) return;
+
+        return {
+          name: result.name,
+          date: result.date,
+          magnetLink: result.magnetLink,
+          size: Math.max(result.size, arr[index].size),
+          seed: Math.max(result.seed, arr[index].seed),
+          leech: Math.max(result.leech, arr[index].leech),
+        };
+      })
+      .filter(result => result);
   }
 }
 
@@ -26,7 +48,6 @@ class TorrentFinder {
  * @typedef {Object} SearchObj
  * @property {String} term
  * @property {Number} page
- * @returns {Promise<Array<Object>>}
  */
 
 exports.modules = TorrentFinder;
