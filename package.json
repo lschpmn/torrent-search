@@ -4,7 +4,7 @@
   "description": "Meta-torrent search engine",
   "main": "./server/index.js",
   "scripts": {
-    "start": "webpack-dev-server --port 5000"
+    
   },
   "keywords": [],
   "author": "",
