@@ -8,13 +8,12 @@ const bytesRegex =  /([0-9.]+)\s(\w+)/;
 
 class PirateBaySite {
   /**
-   * @param {{term: String, page: Number}} searchObj
+   * @param {SearchObj} searchObj
    * @returns {Promise<Array<Object>>}
-   * @constructor
    */
   static Search(searchObj) {
     const url = `https://thepiratebay.org/search/${searchObj.term}/0/7/0`;
-    const results = /**@type {torrentResult[]}*/ [];
+    const results = /**@type {TorrentResult[]}*/ [];
     console.log(`Searching Pirate Bay, url: ${url}`);
   
     return fetch(url, {headers: {cookie: 'lw=s'}})
