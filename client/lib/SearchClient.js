@@ -47,6 +47,6 @@ export default class SearchClient {
     }
     
     this.loading(true);
-    this._socket.emit('search', {searchTerm: this._searchTerm});
+    this._socket.emit('search', {term: this._searchTerm});
   }
 }

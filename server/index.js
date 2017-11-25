@@ -1,16 +1,20 @@
 'use strict';
 
 const app = require('http').createServer();
+const Promise = require('bluebird');
 const io = require('socket.io')(app);
-const PirateBaySite = require('./TorrentFinder/sites/PirateBaySite');
+const TorrentFinder = require('./TorrentFinder/index');
 
 app.listen(5001);
 
 io.on('connection', function (socket) {
-  socket.on('search', ({searchTerm}) => {
-    PirateBaySite
-      .Search({ term: searchTerm, page: 0 })
-      .then(results => socket.emit('results', results))
-      .catch(err => socket.emit('error', err));
+  socket.on('search', ({term}) => {
+    let results = [];
+
+    Promise.each(TorrentFinder.Search({ term, page: 0 }), _results => {
+      results = TorrentFinder.MergeResults(results, _results);
+
+      socket.emit('results', results);
+    });
   });
 });

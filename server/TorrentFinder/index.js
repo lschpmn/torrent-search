@@ -13,13 +13,14 @@ class TorrentFinder {
   /**
    * @param {Array<TorrentResult>} oldResults
    * @param {Array<TorrentResult>} newResults
+   * @returns {Array<TorrentResult>}
    */
   static MergeResults(oldResults, newResults) {
     return [...oldResults, ...newResults]
       .map((result, i, arr) => {
         if (!result) return;
         const index = arr.slice(i + 1, arr.length).findIndex(r => r.magnetLink === result.magnetLink);
-        if (index === -1) return;
+        if (index === -1) return result;
 
         const oldResult = arr[index];
         arr[index] = false;
@@ -54,4 +55,4 @@ class TorrentFinder {
  * @property {Number} page
  */
 
-exports.modules = TorrentFinder;
+module.exports = TorrentFinder;
