@@ -3,13 +3,12 @@
   "version": "0.0.1",
   "description": "Meta-torrent search engine",
   "main": "./server/index.js",
-  "scripts": {
-    
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "cheerio": "^1.0.0-rc.2",
     "moment": "~2.19.2",
     "node-fetch": "^1.7.3",
